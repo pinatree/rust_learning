@@ -1,51 +1,110 @@
-use rand::thread_rng;
-use std::time::{Duration, Instant};
+mod constant_complexity;
+mod logariphmic_complexity;
+mod linear_complexity;
+mod o_n_log_n_complexity;
+mod square_complexity;
 
 fn main() {
     println!("Разработка и отладка примеров сложности Big_O");
 
-    o_1_constant_time();
+    bigo_complexity_o_1();
+    bigo_complexity_o_log();
+    bigo_complexity_linear();
+    bigo_complexity_n_log_n();
+    bigo_complexity_n_square_2();
 }
 
-fn o_1_constant_time() {
+fn bigo_complexity_o_1() {
+    let mut counter = 100;
+    let step = 100;
+    let max = 10000;
 
-    let mut rng = rand::thread_rng();
+    loop {
 
-    //generate random array of integers
-    let mut random_numbers: [u32; 1000] = [0; 1000];
+        if counter > max {
+            break;
+        }
+        
+        let average_execution_time = constant_complexity::get_execution_time(counter, 1000);
 
-    for i in 0..1000 {
-        random_numbers[i] = rand::Rng::gen_range(&mut rng, 0..100);
+        println!("Сложность O(1), среднее время выполнения по {} записям = {} наносекунд", counter, average_execution_time);
+
+        counter = counter + step;
     }
-
-    //generate random array of ids
-    let mut random_ids: [usize; 100] = [0; 100];
-
-    //generate random array of times
-    let mut iter_durations: [u32; 100]= [0; 100];
-
-    for i in 0..100 {
-        random_ids[i] = rand::Rng::gen_range(&mut rng, 0..100);
-    }
-
-    for i in 0..100 {
-        let current_index = random_ids[i];
-
-        let start_time = Instant::now();
-        o_1_constant_time_iteration(random_numbers, current_index);
-        let duration = start_time.elapsed();
-
-        let ns = duration.subsec_nanos();
-
-        iter_durations[i] = ns;
-    }
-
-    //get average value
-    let total: u32 = iter_durations.iter().sum();
-    let average = total as f32 / 100.0;
-    println!("Константная сложность, среднее время выполнения по 100 записям o(1) = {} наносекунд", average)
 }
 
-fn o_1_constant_time_iteration(arr: [u32; 1000], id: usize) {
-    let found = arr[id];
+fn bigo_complexity_o_log() {
+    let mut counter = 100;
+    let step = 100;
+    let max = 10000;
+
+    loop {
+
+        if counter > max {
+            break;
+        }
+        
+        let average_execution_time = logariphmic_complexity::get_execution_time(counter, 1000);
+
+        println!("Сложность Olog, среднее время выполнения по {} записям = {} наносекунд", counter, average_execution_time);
+
+        counter = counter + step;
+    }
+}
+
+fn bigo_complexity_linear() {
+    let mut counter = 100;
+    let step = 100;
+    let max = 10000;
+
+    loop {
+
+        if counter > max {
+            break;
+        }
+        
+        let average_execution_time = linear_complexity::get_execution_time(counter, 1000);
+
+        println!("Сложность линейная - O(n), среднее время выполнения по {} записям = {} наносекунд", counter, average_execution_time);
+
+        counter = counter + step;
+    }
+}
+
+fn bigo_complexity_n_log_n() {
+    let mut counter = 100;
+    let step = 100;
+    let max = 10000;
+
+    loop {
+
+        if counter > max {
+            break;
+        }
+        
+        let average_execution_time = o_n_log_n_complexity::get_execution_time(counter, 1000);
+
+        println!("Сложность линейнлогарфмическая - O(n log n), среднее время выполнения по {} записям = {} наносекунд", counter, average_execution_time);
+
+        counter = counter + step;
+    }
+}
+
+fn bigo_complexity_n_square_2() {
+    let mut counter = 10;
+    let step = 10;
+    let max = 100;
+
+    loop {
+
+        if counter > max {
+            break;
+        }
+        
+        let average_execution_time = square_complexity::get_execution_time(counter, 1);
+
+        println!("Сложность квадратичная - O(n^2), среднее время выполнения по {} записям = {} наносекунд", counter, average_execution_time);
+
+        counter = counter + step;
+    }
 }
